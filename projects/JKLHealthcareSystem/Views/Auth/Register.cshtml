@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">Register</h2>
+    <form class="card p-4 shadow-lg" onsubmit="event.preventDefault(); registerUser();">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" id="username" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" id="password" class="form-control" required>
+        </div>
+        <button class="btn btn-primary w-100">Register</button>
+    </form>
+</div>
+
+<script>
+    async function registerUser() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        const response = await fetch('/Auth/Register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+
+        if (response.ok) {
+            alert('User registered successfully!');
+            window.location.href = '/Auth/Login';
+        } else {
+            const error = await response.text();
+            alert(error || 'Registration failed.');
+        }
+    }
+</script>

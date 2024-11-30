@@ -1,0 +1,21 @@
+@model JKLHealthcareSystem.Models.Caregiver
+
+@{
+    ViewData["Title"] = "Add Caregiver";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">Add New Caregiver</h2>
+    <form method="post" asp-action="Add" class="card p-4 shadow-lg">
+        @Html.AntiForgeryToken()
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" name="Name" class="form-control" value="@Model?.Name" required />
+        </div>
+        <div class="mb-3">
+            <label for="specialty" class="form-label">Specialty</label>
+            <input type="text" id="specialty" name="Specialty" class="form-control" value="@Model?.Specialty" required />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Add Caregiver</button>
+    </form>
+</div>

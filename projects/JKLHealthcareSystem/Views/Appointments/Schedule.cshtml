@@ -1,0 +1,56 @@
+@{
+    ViewData["Title"] = "Schedule Appointment";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2>Schedule Appointment</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="/Appointments/Schedule">
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-3">
+                            <label for="caregiverId" class="form-label">Caregiver</label>
+                            <select id="caregiverId" name="CaregiverId" class="form-select" required>
+                                <option value="">Select Caregiver</option>
+                                @foreach (var caregiver in ViewBag.Caregivers)
+                                {
+                                    <option value="@caregiver.Id">
+                                        @caregiver.Name (@(caregiver.IsAvailable ? "Available" : "Unavailable"))
+                                    </option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="patientId" class="form-label">Patient</label>
+                            <select id="patientId" name="PatientId" class="form-select" required>
+                                <option value="">Select Patient</option>
+                                @foreach (var patient in ViewBag.Patients)
+                                {
+                                    <option value="@patient.Id">@patient.Name</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="scheduledTime" class="form-label">Scheduled Time</label>
+                            <input type="datetime-local" id="scheduledTime" name="ScheduledTime" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="notes" class="form-label">Notes</label>
+                            <textarea id="notes" name="Notes" class="form-control" rows="3"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Schedule Appointment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

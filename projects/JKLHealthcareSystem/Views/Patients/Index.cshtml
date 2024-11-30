@@ -1,0 +1,72 @@
+
+
+@model IEnumerable<JKLHealthcareSystem.Models.Patient>
+
+@{
+    ViewData["Title"] = "Patients List";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">Patients</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    <a class="btn btn-primary mb-3" href="/Patients/Add">Add New Patient</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Medical Records</th>
+                <th>Caregiver</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var patient in Model)
+            {
+                var assignment = patient.Assignments?.FirstOrDefault();
+                <tr>
+                    <td>@patient.Name</td>
+                    <td>@patient.Address</td>
+                    <td>@patient.MedicalRecords</td>
+                    <td>
+                        @if (assignment?.Caregiver != null)
+                        {
+                            @assignment.Caregiver.Name
+                        }
+                        else
+                        {
+                            <span class="text-danger">Not Assigned</span>
+                        }
+                    </td>
+                   <td>
+                        @if (assignment?.Caregiver == null)
+                        {
+                            <a class="btn btn-success btn-sm" href="/Patients/Assign?patientId=@patient.Id">Assign Caregiver</a>
+                        }
+                        else
+                        {
+                           <form method="post" action="/Patients/Unassign/@assignment.Id" style="display:inline;">
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-danger btn-sm">Unassign</button>
+</form>
+
+
+                        }
+                        <a class="btn btn-danger btn-sm" href="/Patients/Delete/@patient.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

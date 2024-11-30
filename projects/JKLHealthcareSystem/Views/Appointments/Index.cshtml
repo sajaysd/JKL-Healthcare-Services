@@ -1,0 +1,48 @@
+@model IEnumerable<JKLHealthcareSystem.Models.Appointment>
+
+@{
+    ViewData["Title"] = "Appointments";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">Appointments</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    <a class="btn btn-primary mb-3" href="/Appointments/Schedule">Schedule New Appointment</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Caregiver</th>
+                <th>Patient</th>
+                <th>Scheduled Time</th>
+                <th>Notes</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var appointment in Model)
+            {
+                <tr>
+                    <td>@appointment.Caregiver.Name</td>
+                    <td>@appointment.Patient.Name</td>
+                    <td>@appointment.ScheduledTime.ToString("f")</td>
+                    <td>@appointment.Notes</td>
+                   
+                    <td>
+    <a href="/Appointments/Edit/@appointment.Id" class="btn btn-warning btn-sm">Edit</a>
+  
+</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

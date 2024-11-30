@@ -1,0 +1,50 @@
+@model IEnumerable<JKLHealthcareSystem.Models.CaregiverWithPatientCount>
+
+@{
+    ViewData["Title"] = "Caregivers List";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center">Caregivers</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    <a class="btn btn-primary mb-3" href="/Caregivers/Add">Add New Caregiver</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Specialty</th>
+                <th>Availability</th>
+                <th>Patient Count</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Caregiver.Name</td>
+                    <td>@item.Caregiver.Specialty</td>
+                    <td>@(item.Caregiver.IsAvailable ? "Available" : "Unavailable")</td>
+                    <td>@item.PatientCount</td>
+                    <td>
+                        <form method="post" action="/Caregivers/Delete" style="display:inline;">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.Caregiver.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this caregiver?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
